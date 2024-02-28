@@ -1,0 +1,53 @@
+class Man {
+    private var _passport: Passport?
+
+    var passport: Passport? {
+        return _passport
+    }
+
+    func getPass(_ passport: Passport) {
+    _passport = passport
+    _passport?.OwnerChange = {
+        self._passport = nil
+    }
+}
+
+
+    deinit {
+        print("Мужчина удален из памяти")
+    }
+}
+
+class Passport {
+    private var _owner: Man?
+
+    var OwnerChange: (() -> Void)?
+
+    var owner: Man? {
+        return _owner
+    }
+
+    init(owner: Man) {
+        _owner = owner
+    }
+
+    func changeOwner(_ newOwner: Man) {
+        _owner = newOwner
+        OwnerChange?()
+    }
+
+    deinit {
+        print("Паспорт удален из памяти")
+    }
+}
+
+var man: Man? = Man()
+var passport: Passport? = Passport(owner: man!)
+
+man?.getPass(passport!)
+
+let Man2 = Man()
+passport?.changeOwner(Man2)
+
+man = nil 
+passport = nil
