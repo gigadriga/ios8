@@ -1,0 +1,14 @@
+Capture list - механизм, который позволяет захватывать значения изменяемых переменных из анонимных функций или блоков кода, работает как со значениями, так и с изменяемыми переменными.
+
+func changeValue(_ array: inout [Int]) {
+    var newArray = array
+    newArray.append(10)
+    array = newArray
+}
+
+var numbers = [1, 2, 3]
+changeValue(&numbers)
+print(numbers) // [1, 2, 3, 10]
+Здесь мы используем capture list внутри функции changeValue для сохранения исходного массива numbers. Это позволяет нам увидеть, что значение numbers было изменено внутри функции.
+
+
