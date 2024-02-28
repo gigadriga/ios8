@@ -1,0 +1,24 @@
+class Car {
+    weak var driver: Man?
+
+    deinit {
+        print("машина удалена из памяти")
+    }
+}
+
+class Man {
+    weak var myCar: Car?
+
+    deinit {
+        print("мужчина удален из памяти")
+    }
+}
+
+var car: Car? = Car()
+var man: Man? = Man()
+
+car?.driver = man
+man?.myCar = car
+
+car = nil
+man = nil
