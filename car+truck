@@ -1,0 +1,93 @@
+enum CarAct {
+    case startEngine
+    case stopEngine
+    case openWindows
+    case closeWindows
+    case loadCargo(volume: Double)
+    case unloadCargo(volume: Double)
+}
+
+struct Car: Hashable {
+    var brand: String
+    var year: Int
+    var trunk: Double
+    var Engine: Bool
+    var Windows: Bool
+    var filledTrunk: Double
+
+    mutating func Act(_ action: CarAct) {
+        switch action {
+        case .startEngine:
+            Engine = true
+        case .stopEngine:
+            Engine = false
+        case .openWindows:
+            Windows = true
+        case .closeWindows:
+            Windows = false
+        case .loadCargo(let volume):
+            filledTrunk += volume
+        case .unloadCargo(let volume):
+            filledTrunk -= volume
+            if filledTrunk < 0 {
+                filledTrunk = 0
+            }
+        }
+    }
+}
+
+struct Truck: Hashable {
+    var brand: String
+    var year: Int
+    var cargo: Double
+    var Engine: Bool
+    var Windows: Bool
+    var filledCargo: Double
+
+   mutating func Act(_ action: CarAct) {
+        switch action {
+        case .startEngine:
+            Engine = true
+        case .stopEngine:
+            Engine = false
+        case .openWindows:
+            Windows = true
+        case .closeWindows:
+            Windows = false
+        case .loadCargo(let volume):
+            filledCargo += volume
+        case .unloadCargo(let volume):
+            filledCargo -= volume
+            if filledCargo < 0 {
+                filledCargo = 0
+            }
+        }
+    }
+}
+
+
+var car1 = Car(brand: "Chevrolet", year: 1967, trunk: 900 , Engine: false, Windows: false, filledTrunk: 650)
+
+var car2 = Car(brand: "Audi", year: 2021, trunk: 900, Engine: true, Windows: true, filledTrunk: 650)
+
+var truck1 = Truck(brand: "Mercedes", year: 2022 , cargo: 1750, Engine: true, Windows: true, filledCargo: 1600)
+
+var truck2 = Truck(brand: "Scania", year: 2023, cargo: 1800, Engine: false, Windows: false, filledCargo: 1600)
+
+car1.Act(.startEngine)
+car1.Act(.openWindows)
+
+car2.Act(.loadCargo(volume: 100))
+car2.Act(.unloadCargo(volume: 150))
+
+truck1.Act(.startEngine)
+truck1.Act(.loadCargo(volume: 300))
+
+truck2.Act(.closeWindows)
+truck2.Act(.unloadCargo(volume: 350))
+
+var carDic: [Car: String] = [car1: "car1", car2: "car2"]
+var truckDic: [Truck: String] = [truck1: "truck1", truck2: "truck2"]
+
+print("Словарь автомобилей: \(carDic)")
+print("Словарь грузовиков: \(truckDic)")
